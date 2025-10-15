@@ -1,0 +1,84 @@
+# ============================================
+# Production 환경 설정 (운영용 - AWS Aurora MySQL)
+# ============================================
+
+# Spring Boot 설정
+spring:
+  # JPA/Hibernate 설정
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate  # 운영: 스키마 검증만 (변경 금지)
+    properties:
+      hibernate:
+        format_sql: false  # 운영: SQL 포맷팅 비활성화
+    show-sql: false      # 운영: SQL 로그 비활성화
+
+# Production DataSource (CQRS + AWS Advanced JDBC Driver)
+dispatch:
+  datasource:
+    # ============================================
+    # Writer DataSource (AWS Advanced JDBC Driver)
+    # ============================================
+    write:
+      driver-class-name: software.amazon.jdbc.Driver
+      # Cluster Endpoint 사용 (Writer)
+      # wrapperPlugins: failover (빠른 Failover 1-2초)
+      jdbc-url: jdbc:mysql:aws://${DB_CLUSTER_ENDPOINT:your-cluster.cluster-xxxxx.ap-northeast-2.rds.amazonaws.com}:3306/dispatch?wrapperPlugins=failover&clusterInstanceHostPattern=?.cluster-xxxxx.ap-northeast-2.rds.amazonaws.com&useSSL=true&requireSSL=true&serverTimezone=Asia/Seoul
+      username: ${DB_USERNAME:dispatch_user}
+      password: ${DB_PASSWORD}
+      hikari:
+        pool-name: DispatchWriterPool
+        maximum-pool-size: 20  # 쓰기 트래픽 10%
+        minimum-idle: 5
+        connection-timeout: 3000
+        idle-timeout: 600000
+        max-lifetime: 1800000
+        connection-test-query: SELECT 1
+        validation-timeout: 3000
+    
+    # ============================================
+    # Reader DataSource (AWS Advanced JDBC Driver)
+    # ============================================
+    read:
+      driver-class-name: software.amazon.jdbc.Driver
+      # Reader Endpoint 사용 (여러 Reader 인스턴스 자동 분산)
+      # wrapperPlugins: failover (빠른 Failover 1-2초)
+      jdbc-url: jdbc:mysql:aws://${DB_READER_ENDPOINT:your-cluster.cluster-ro-xxxxx.ap-northeast-2.rds.amazonaws.com}:3306/dispatch?wrapperPlugins=failover&clusterInstanceHostPattern=?.cluster-xxxxx.ap-northeast-2.rds.amazonaws.com&useSSL=true&requireSSL=true&serverTimezone=Asia/Seoul
+      username: ${DB_USERNAME:dispatch_user}
+      password: ${DB_PASSWORD}
+      hikari:
+        pool-name: DispatchReaderPool
+        maximum-pool-size: 50  # 읽기 트래픽 90%
+        minimum-idle: 10
+        connection-timeout: 3000
+        idle-timeout: 600000
+        max-lifetime: 1800000
+        connection-test-query: SELECT 1
+        validation-timeout: 3000
+
+# Actuator 설정 (Production 환경 - 보안)
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus  # 운영: 필요한 엔드포인트만 노출
+  
+  endpoint:
+    health:
+      show-details: never  # 운영: 상세 정보 노출 안 함 (보안)
+  
+  # Prometheus Metrics 설정
+  prometheus:
+    metrics:
+      export:
+        step: 1m
+        enabled: true
+
+# 로그 설정
+logging:
+  level:
+    vroong.laas.dispatch: INFO  # 운영: 기본 로그만
+    org.hibernate.SQL: WARN
+    software.amazon.jdbc: INFO  # AWS Advanced JDBC Driver 로그
+    # Failover, IAM 인증, Read/Write Splitting 로그 확인 가능
