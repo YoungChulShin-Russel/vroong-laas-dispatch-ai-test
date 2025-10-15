@@ -2,4 +2,5 @@ rootProject.name = 'dispatch'
 
 include 'core'
 include 'api'
+include 'event-consumer'
 include 'infrastructure'

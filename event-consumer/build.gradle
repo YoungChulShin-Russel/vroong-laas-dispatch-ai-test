@@ -1,0 +1,29 @@
+apply plugin: "org.springframework.boot"
+
+springBoot {
+    mainClass = 'vroong.laas.dispatch.eventconsumer.EventConsumerApplication'
+}
+
+dependencies {
+    implementation project(":core")
+    runtimeOnly project(":infrastructure")
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-autoconfigure'
+
+    // Prometheus (Metrics for Production)
+    runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
+
+    // Micrometer Tracing (Zipkin 제외)
+    implementation 'io.micrometer:micrometer-tracing-bridge-brave'
+
+    // Logstash Encoder (ELK 스택)
+    implementation 'net.logstash.logback:logstash-logback-encoder:7.4'
+
+    // Jackson - 테스트에서 ObjectMapper 설정 시 사용 (RestDocsConfiguration)
+    testImplementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+
+    // H2 Database - 테스트용 인메모리 DB
+    testRuntimeOnly 'com.h2database:h2'
+}
