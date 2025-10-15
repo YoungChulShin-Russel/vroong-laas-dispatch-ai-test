@@ -34,10 +34,10 @@ public interface OutboxEventClient {
   /**
    * AggregateRoot를 Outbox에 저장
    *
-   * @param type Outbox Event Type (ORDER_CREATED, ORDER_CANCELLED 등)
+   * @param eventType Outbox Event Type (ORDER_CREATED, ORDER_CANCELLED 등)
    * @param aggregateRoot AggregateRoot (Order, Payment 등)
    */
-  void save(OutboxEventType type, AggregateRoot aggregateRoot);
+  void save(OutboxEventType eventType, AggregateRoot aggregateRoot);
 
   /**
    * Outbox 테이블에서 미전송 이벤트를 Kafka로 발행

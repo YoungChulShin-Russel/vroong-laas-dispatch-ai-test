@@ -1,3 +1,4 @@
 rootProject.name = 'dispatch'
 
 include 'core'
+include 'infrastructure'
