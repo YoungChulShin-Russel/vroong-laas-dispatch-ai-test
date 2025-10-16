@@ -2,12 +2,15 @@ package vroong.laas.dispatch.infrastructure.storage.db.dispatch;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 import java.time.Instant;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import vroong.laas.dispatch.core.domain.dispatch.DispatchRequestStatus;
 import vroong.laas.dispatch.infrastructure.storage.db.ConcurrentEntity;
 
 @Entity
@@ -20,7 +23,8 @@ public class DispatchRequestEntity extends ConcurrentEntity {
     private Long orderId;
 
     @Column(name = "status", nullable = false)
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private DispatchRequestStatus status;
 
     @Column(name = "assigned_agent_id")
     private Long assignedAgentId;
@@ -34,7 +38,7 @@ public class DispatchRequestEntity extends ConcurrentEntity {
     @Builder
     public DispatchRequestEntity(
             Long orderId,
-            String status,
+            DispatchRequestStatus status,
             Long assignedAgentId,
             Instant dispatchedAt,
             Instant cancelledAt) {

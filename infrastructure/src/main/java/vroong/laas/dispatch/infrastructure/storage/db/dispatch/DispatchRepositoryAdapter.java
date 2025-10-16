@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import vroong.laas.dispatch.core.domain.dispatch.DispatchRequest;
 import vroong.laas.dispatch.core.domain.dispatch.DispatchRequestStatus;
-import vroong.laas.dispatch.core.domain.dispatch.NewDispatchRequest;
+import vroong.laas.dispatch.core.domain.dispatch.NewDispatchOrder;
 import vroong.laas.dispatch.core.domain.dispatch.required.DispatchRepository;
 
 @Repository
@@ -14,10 +14,13 @@ public class DispatchRepositoryAdapter implements DispatchRepository {
   private final DispatchRequestJpaRepository dispatchRequestJpaRepository;
 
   @Override
-  public DispatchRequest storeDispatchRequest(NewDispatchRequest newDispatchRequest) {
+  public DispatchRequest storeDispatchRequest(
+      NewDispatchOrder newDispatchOrder,
+      DispatchRequestStatus dispatchRequestStatus
+      ) {
     DispatchRequestEntity dispatchRequestEntity = DispatchRequestEntity.builder()
-        .orderId(newDispatchRequest.orderId())
-        .status(newDispatchRequest.status().name())
+        .orderId(newDispatchOrder.orderId())
+        .status(dispatchRequestStatus)
         .assignedAgentId(null)
         .dispatchedAt(null)
         .cancelledAt(null)
@@ -29,7 +32,7 @@ public class DispatchRepositoryAdapter implements DispatchRepository {
     return new DispatchRequest(
         savedDispatchRequestEntity.getId(),
         savedDispatchRequestEntity.getOrderId(),
-        DispatchRequestStatus.valueOf(savedDispatchRequestEntity.getStatus()),
+        savedDispatchRequestEntity.getStatus(),
         savedDispatchRequestEntity.getAssignedAgentId(),
         savedDispatchRequestEntity.getDispatchedAt(),
         savedDispatchRequestEntity.getCancelledAt());
