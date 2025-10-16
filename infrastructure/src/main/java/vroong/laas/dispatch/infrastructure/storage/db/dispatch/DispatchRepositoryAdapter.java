@@ -2,9 +2,8 @@ package vroong.laas.dispatch.infrastructure.storage.db.dispatch;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import vroong.laas.dispatch.core.domain.dispatch.Dispatch;
 import vroong.laas.dispatch.core.domain.dispatch.DispatchRequest;
-import vroong.laas.dispatch.core.domain.dispatch.DispatchRequestStatus;
-import vroong.laas.dispatch.core.domain.dispatch.NewDispatchOrder;
 import vroong.laas.dispatch.core.domain.dispatch.required.DispatchRepository;
 
 @Repository
@@ -14,27 +13,26 @@ public class DispatchRepositoryAdapter implements DispatchRepository {
   private final DispatchRequestJpaRepository dispatchRequestJpaRepository;
 
   @Override
-  public DispatchRequest storeDispatchRequest(
-      NewDispatchOrder newDispatchOrder,
-      DispatchRequestStatus dispatchRequestStatus
-      ) {
-    DispatchRequestEntity dispatchRequestEntity = DispatchRequestEntity.builder()
-        .orderId(newDispatchOrder.orderId())
-        .status(dispatchRequestStatus)
-        .assignedAgentId(null)
+  public Dispatch storeDispatch(DispatchRequest dispatchRequest) {
+    DispatchEntity dispatchEntity = DispatchEntity.builder()
+        .orderId(dispatchRequest.orderId())
+        .status(dispatchRequest.status())
+        .requestedAt(dispatchRequest.requestedAt())
+        .agentId(null)
         .dispatchedAt(null)
         .cancelledAt(null)
         .build();
 
-    DispatchRequestEntity savedDispatchRequestEntity =
-        dispatchRequestJpaRepository.save(dispatchRequestEntity);
+    DispatchEntity savedDispatchEntity =
+        dispatchRequestJpaRepository.save(dispatchEntity);
 
-    return new DispatchRequest(
-        savedDispatchRequestEntity.getId(),
-        savedDispatchRequestEntity.getOrderId(),
-        savedDispatchRequestEntity.getStatus(),
-        savedDispatchRequestEntity.getAssignedAgentId(),
-        savedDispatchRequestEntity.getDispatchedAt(),
-        savedDispatchRequestEntity.getCancelledAt());
+    return new Dispatch(
+        savedDispatchEntity.getId(),
+        savedDispatchEntity.getOrderId(),
+        savedDispatchEntity.getStatus(),
+        savedDispatchEntity.getAgentId(),
+        savedDispatchEntity.getRequestedAt(),
+        savedDispatchEntity.getDispatchedAt(),
+        savedDispatchEntity.getCancelledAt());
   }
 }

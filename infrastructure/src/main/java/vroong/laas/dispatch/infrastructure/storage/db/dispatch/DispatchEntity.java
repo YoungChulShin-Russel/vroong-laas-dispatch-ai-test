@@ -10,24 +10,27 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import vroong.laas.dispatch.core.domain.dispatch.DispatchRequestStatus;
+import vroong.laas.dispatch.core.domain.dispatch.DispatchStatus;
 import vroong.laas.dispatch.infrastructure.storage.db.ConcurrentEntity;
 
 @Entity
-@Table(name = "dispatch_requests")
+@Table(name = "dispatches")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class DispatchRequestEntity extends ConcurrentEntity {
+public class DispatchEntity extends ConcurrentEntity {
 
     @Column(name = "order_id", nullable = false)
     private Long orderId;
 
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
-    private DispatchRequestStatus status;
+    private DispatchStatus status;
 
-    @Column(name = "assigned_agent_id")
-    private Long assignedAgentId;
+    @Column(name = "agent_id")
+    private Long agentId;
+
+    @Column(name = "requested_at")
+    private Instant requestedAt;
 
     @Column(name = "dispatched_at")
     private Instant dispatchedAt;
@@ -36,15 +39,17 @@ public class DispatchRequestEntity extends ConcurrentEntity {
     private Instant cancelledAt;
 
     @Builder
-    public DispatchRequestEntity(
+    public DispatchEntity(
             Long orderId,
-            DispatchRequestStatus status,
-            Long assignedAgentId,
+            DispatchStatus status,
+            Long agentId,
+            Instant requestedAt,
             Instant dispatchedAt,
             Instant cancelledAt) {
         this.orderId = orderId;
         this.status = status;
-        this.assignedAgentId = assignedAgentId;
+        this.agentId = agentId;
+        this.requestedAt = requestedAt;
         this.dispatchedAt = dispatchedAt;
         this.cancelledAt = cancelledAt;
     }

@@ -2,8 +2,8 @@ package vroong.laas.dispatch.core.application.dispatch;
 
 import lombok.RequiredArgsConstructor;
 import vroong.laas.dispatch.core.common.annotation.Facade;
+import vroong.laas.dispatch.core.domain.dispatch.DispatchRequest;
 import vroong.laas.dispatch.core.domain.dispatch.NewDispatchOrder;
-import vroong.laas.dispatch.core.domain.dispatch.command.RequestDispatchCommand;
 import vroong.laas.dispatch.core.domain.dispatch.service.DispatchRequestService;
 
 @Facade
@@ -12,12 +12,13 @@ public class DispatchFacade {
 
   private final DispatchRequestService dispatchRequestService;
 
-  public Long requestDispatch(NewDispatchOrder newDispatchOrder) {
+  public Long request(DispatchRequest dispatchRequest) {
     // todo: 진행 중인 배차 확인
+    return dispatchRequestService.request(dispatchRequest);
+  }
 
-    Long requestId = dispatchRequestService.request(newDispatchOrder);
+  public void propose() {
 
-    return requestId;
   }
 
 }

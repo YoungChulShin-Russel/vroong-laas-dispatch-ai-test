@@ -19,19 +19,14 @@ public class DispatchProposalEntity extends BaseEntity {
     @Column(name = "dispatch_request_id", nullable = false)
     private Long dispatchRequestId;
 
-    @Column(name = "proposal_status", nullable = false)
-    private String proposalStatus;
-
-    @Column(name = "completed_at")
-    private Instant completedAt;
+    @Column(name = "proposed_at", nullable = false)
+    private Instant proposedAt;
 
     @Builder
     public DispatchProposalEntity(
             Long dispatchRequestId,
-            String proposalStatus,
-            Instant completedAt) {
+            Instant proposedAt) {
         this.dispatchRequestId = dispatchRequestId;
-        this.proposalStatus = proposalStatus;
-        this.completedAt = completedAt;
+        this.proposedAt = proposedAt;
     }
 }

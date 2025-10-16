@@ -1,7 +1,11 @@
 package vroong.laas.dispatch.api.web.dispatch;
 
+import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import vroong.laas.dispatch.api.web.dispatch.request.ProposeDispatchRequest;
 import vroong.laas.dispatch.core.application.dispatch.DispatchFacade;
 
 @RestController
@@ -12,6 +16,13 @@ public class DispatchController {
 
   public DispatchController(DispatchFacade dispatchFacade) {
     this.dispatchFacade = dispatchFacade;
+  }
+
+  @PostMapping("/propose")
+  public void proposeAgent(
+      @RequestBody @Valid ProposeDispatchRequest request
+  ) {
+
   }
 
 }

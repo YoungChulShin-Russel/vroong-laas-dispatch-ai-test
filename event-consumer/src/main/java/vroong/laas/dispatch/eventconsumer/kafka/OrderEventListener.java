@@ -4,6 +4,7 @@ import com.vroong.msa.kafka.event.KafkaEvent;
 import com.vroong.msa.kafka.event.KafkaEventPayload;
 import com.vroong.msa.kafka.event.KafkaEventType;
 import com.vroong.msa.kafka.event.payload.order.OrderCreatedKafkaEventPayload;
+import java.time.Instant;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -11,6 +12,7 @@ import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 import vroong.laas.dispatch.core.application.dispatch.DispatchFacade;
+import vroong.laas.dispatch.core.domain.dispatch.DispatchRequest;
 import vroong.laas.dispatch.core.domain.dispatch.NewDispatchOrder;
 
 @Slf4j
@@ -34,7 +36,7 @@ public class OrderEventListener {
     KafkaEvent<KafkaEventPayload> kafkaEvent = KafkaEvent.fromJson(payloadJson);
     if (kafkaEvent.getType() == KafkaEventType.ORDER_ORDER_CREATED) {
       OrderCreatedKafkaEventPayload payload = (OrderCreatedKafkaEventPayload) kafkaEvent.getPayload();
-      Long requestId = dispatchFacade.requestDispatch(new NewDispatchOrder(payload.getOrderId()));
+      Long requestId = dispatchFacade.request(new DispatchRequest(payload.getOrderId(), Instant.now()));
       log.info("handleOrderEvent, requestId={}", requestId);
     }
 
