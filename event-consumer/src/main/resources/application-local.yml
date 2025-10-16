@@ -32,7 +32,7 @@ dispatch:
     # Writer DataSource (Local - localhost)
     write:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      jdbc-url: jdbc:mysql://localhost:3306/dispatch?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul
+      jdbc-url: jdbc:mysql://localhost:3307/dispatch?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul
       username: ${DB_USERNAME:dispatch_user}
       password: ${DB_PASSWORD:dispatch_password}
       hikari:
@@ -46,7 +46,7 @@ dispatch:
     # Reader DataSource (Local - localhost, Writer와 동일)
     read:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      jdbc-url: jdbc:mysql://localhost:3306/dispatch?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul
+      jdbc-url: jdbc:mysql://localhost:3307/dispatch?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul
       username: ${DB_USERNAME:dispatch_user}
       password: ${DB_PASSWORD:dispatch_password}
       hikari:
