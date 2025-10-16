@@ -13,6 +13,18 @@ spring:
       hibernate:
         format_sql: true     # 로컬: SQL 포맷팅
     show-sql: true           # 로컬: SQL 로그 출력
+  
+  # Kafka Consumer 설정 (Local 환경)
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: local-dispatch-event-consumer
+#      auto-offset-reset: earliest
+#      enable-auto-commit: false
+#      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+#      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+#      properties:
+#        spring.json.trusted.packages: "vroong.laas.dispatch.*"
 
 # Local DataSource (Writer/Reader 동일 - localhost:3306)
 dispatch:
@@ -55,6 +67,7 @@ management:
   endpoint:
     health:
       show-details: always  # 로컬: 항상 Health Check 상세 정보 노출
+
 
 # Kafka/Outbox 설정 (Local 환경)
 outbox:
