@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import vroong.laas.dispatch.api.web.dispatch.request.RespondDispatchRequest;
 import vroong.laas.dispatch.api.web.dispatch.request.ProposeDispatchRequest;
 import vroong.laas.dispatch.core.application.dispatch.DispatchFacade;
 
@@ -23,4 +24,8 @@ public class DispatchController {
     dispatchFacade.propose(request.toAgentProposal());
   }
 
+  @PostMapping("/respond")
+  public void respond(@RequestBody @Valid RespondDispatchRequest request) {
+    dispatchFacade.respond(request.toAgentDispatchResponse());
+  }
 }

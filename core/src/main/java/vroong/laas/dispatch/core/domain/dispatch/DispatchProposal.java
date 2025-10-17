@@ -37,4 +37,18 @@ public class DispatchProposal {
     this.expiresAt = expiresAt;
     this.respondedAt = respondedAt;
   }
+
+  public void accept() {
+    if (this.status != DispatchProposalStatus.PROPOSED) {
+      throw new IllegalStateException("배차 진행중인 제안만 수락할 수 있습니다");
+    }
+
+    this.status = DispatchProposalStatus.ACCEPTED;
+    this.respondedAt = Instant.now();
+  }
+
+  public void decline() {
+    this.status = DispatchProposalStatus.DECLINED;
+    this.respondedAt = Instant.now();
+  }
 }

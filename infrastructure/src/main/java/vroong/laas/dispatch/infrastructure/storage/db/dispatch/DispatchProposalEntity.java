@@ -11,6 +11,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import vroong.laas.dispatch.core.domain.dispatch.DispatchProposal;
 import vroong.laas.dispatch.core.domain.dispatch.DispatchProposalStatus;
 import vroong.laas.dispatch.infrastructure.storage.db.BaseEntity;
 
@@ -59,4 +60,29 @@ public class DispatchProposalEntity extends BaseEntity {
         this.expiresAt = expiresAt;
         this.respondedAt = respondedAt;
     }
+
+    public DispatchProposal toDomain(Long orderId) {
+        return new DispatchProposal(
+            this.getId(),
+            this.dispatchId,
+            orderId,
+            this.agentId,
+            this.suggestedFee,
+            this.status,
+            this.proposedAt,
+            this.expiresAt,
+            this.respondedAt);
+    }
+
+    public void updateFromDomain(DispatchProposal dispatchProposal) {
+        this.dispatchId = dispatchProposal.getDispatchId();
+        this.agentId = dispatchProposal.getAgentId();
+        this.suggestedFee = dispatchProposal.getSuggestedFee();
+        this.status = dispatchProposal.getStatus();
+        this.proposedAt = dispatchProposal.getProposedAt();
+        this.expiresAt = dispatchProposal.getExpiresAt();
+        this.respondedAt = dispatchProposal.getRespondedAt();
+    }
+
+
 }

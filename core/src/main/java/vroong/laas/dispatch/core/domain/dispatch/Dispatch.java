@@ -41,4 +41,10 @@ public class Dispatch extends AggregateRoot {
     this.dispatchedAt = dispatchedAt;
     this.cancelledAt = cancelledAt;
   }
+
+  public void dispatch(Long agentId) {
+    this.agentId = agentId;
+    this.status = DispatchStatus.DISPATCHED;
+    this.dispatchedAt = Instant.now();
+  }
 }

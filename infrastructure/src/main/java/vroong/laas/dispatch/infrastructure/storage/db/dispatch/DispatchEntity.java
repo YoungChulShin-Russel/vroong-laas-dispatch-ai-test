@@ -10,6 +10,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import vroong.laas.dispatch.core.domain.dispatch.Dispatch;
 import vroong.laas.dispatch.core.domain.dispatch.DispatchStatus;
 import vroong.laas.dispatch.infrastructure.storage.db.ConcurrentEntity;
 
@@ -52,5 +53,25 @@ public class DispatchEntity extends ConcurrentEntity {
         this.requestedAt = requestedAt;
         this.dispatchedAt = dispatchedAt;
         this.cancelledAt = cancelledAt;
+    }
+
+    public Dispatch toDomain() {
+        return new Dispatch(
+            this.getId(),
+            this.orderId,
+            this.status,
+            this.agentId,
+            this.requestedAt,
+            this.dispatchedAt,
+            this.cancelledAt);
+    }
+
+    public void updateFromDomain(Dispatch dispatch) {
+        this.orderId = dispatch.getOrderId();
+        this.status = dispatch.getStatus();
+        this.agentId = dispatch.getAgentId();
+        this.requestedAt = dispatch.getRequestedAt();
+        this.dispatchedAt = dispatch.getDispatchedAt();
+        this.cancelledAt = dispatch.getCancelledAt();
     }
 }

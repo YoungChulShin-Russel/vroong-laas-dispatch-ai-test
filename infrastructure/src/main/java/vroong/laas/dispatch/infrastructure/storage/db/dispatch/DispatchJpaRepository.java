@@ -8,6 +8,8 @@ import vroong.laas.dispatch.core.domain.dispatch.DispatchStatus;
 @Repository
 public interface DispatchJpaRepository extends JpaRepository<DispatchEntity, Long> {
 
+  Optional<DispatchEntity> findByIdAndStatus(Long dispatchId, DispatchStatus status);
+
   Optional<DispatchEntity> findByOrderIdAndStatus(Long orderId, DispatchStatus status);
 
 }
