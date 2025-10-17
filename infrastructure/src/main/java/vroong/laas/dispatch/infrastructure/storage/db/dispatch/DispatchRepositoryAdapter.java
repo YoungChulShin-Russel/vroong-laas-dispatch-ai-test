@@ -1,5 +1,6 @@
 package vroong.laas.dispatch.infrastructure.storage.db.dispatch;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import vroong.laas.dispatch.core.domain.dispatch.Dispatch;
@@ -44,7 +45,7 @@ public class DispatchRepositoryAdapter implements DispatchRepository {
   public DispatchProposal saveDispatchProposal(NewDispatchProposal dispatchProposal) {
     // 현재 배차 진행중인 Dispatch 확인
     DispatchEntity dispatchEntity = dispatchJpaRepository.findByOrderIdAndStatus(
-            dispatchProposal.orderId(), DispatchStatus.DISPATCHED)
+            dispatchProposal.orderId(), DispatchStatus.REQUESTED)
         .orElseThrow(() -> new IllegalArgumentException("배차 진행 중인 오더가 아닙니다"));
 
     // DispatchProposal 생성 및 저장

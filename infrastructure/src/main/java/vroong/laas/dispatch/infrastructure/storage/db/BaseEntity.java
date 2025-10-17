@@ -1,6 +1,8 @@
 package vroong.laas.dispatch.infrastructure.storage.db;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -22,6 +24,7 @@ public abstract class BaseEntity {
   private Long id;
 
   @Column(name = "entity_status", nullable = false)
+  @Enumerated(EnumType.STRING)
   private EntityStatus entityStatus = EntityStatus.ACTIVE;
 
   @Column(name = "created_at", nullable = false, updatable = false)

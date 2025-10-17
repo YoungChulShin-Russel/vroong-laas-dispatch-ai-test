@@ -19,10 +19,8 @@ public class DispatchController {
   }
 
   @PostMapping("/propose")
-  public void proposeAgent(
-      @RequestBody @Valid ProposeDispatchRequest request
-  ) {
-
+  public void propose(@RequestBody @Valid ProposeDispatchRequest request) {
+    dispatchFacade.propose(request.toAgentProposal());
   }
 
 }

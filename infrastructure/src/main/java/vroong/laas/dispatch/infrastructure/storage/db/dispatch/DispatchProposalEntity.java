@@ -2,6 +2,8 @@ package vroong.laas.dispatch.infrastructure.storage.db.dispatch;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -28,6 +30,7 @@ public class DispatchProposalEntity extends BaseEntity {
     private BigDecimal suggestedFee;
 
     @Column(name = "status", nullable = false)
+    @Enumerated(EnumType.STRING)
     private DispatchProposalStatus status;
 
     @Column(name = "proposed_at", nullable = false)

@@ -2,6 +2,7 @@ package vroong.laas.dispatch.core.application.dispatch;
 
 import lombok.RequiredArgsConstructor;
 import vroong.laas.dispatch.core.common.annotation.Facade;
+import vroong.laas.dispatch.core.domain.dispatch.AgentProposal;
 import vroong.laas.dispatch.core.domain.dispatch.NewDispatch;
 import vroong.laas.dispatch.core.domain.dispatch.NewDispatchProposal;
 import vroong.laas.dispatch.core.domain.dispatch.service.DispatchProposalService;
@@ -19,8 +20,8 @@ public class DispatchFacade {
     return dispatchRequestService.request(newDispatch);
   }
 
-  public void propose(NewDispatchProposal dispatchProposal) {
-    dispatchProposalService.propose(dispatchProposal);
+  public void propose(AgentProposal agentProposal) {
+    dispatchProposalService.propose(agentProposal);
   }
 
 
