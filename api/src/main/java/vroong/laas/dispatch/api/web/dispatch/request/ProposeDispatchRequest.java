@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 public record ProposeDispatchRequest(
-    @NotNull Long requestId,
+    @NotNull Long orderId,
     @NotNull Long agentId,
     @NotNull @Min(0) BigDecimal amount
 ) {

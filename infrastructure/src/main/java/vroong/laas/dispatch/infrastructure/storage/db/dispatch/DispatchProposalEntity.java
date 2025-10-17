@@ -3,11 +3,13 @@ package vroong.laas.dispatch.infrastructure.storage.db.dispatch;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import java.math.BigDecimal;
 import java.time.Instant;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import vroong.laas.dispatch.core.domain.dispatch.DispatchProposalStatus;
 import vroong.laas.dispatch.infrastructure.storage.db.BaseEntity;
 
 @Entity
@@ -16,17 +18,42 @@ import vroong.laas.dispatch.infrastructure.storage.db.BaseEntity;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class DispatchProposalEntity extends BaseEntity {
 
-    @Column(name = "dispatch_request_id", nullable = false)
-    private Long dispatchRequestId;
+    @Column(name = "dispatch_id", nullable = false)
+    private Long dispatchId;
+
+    @Column(name = "agent_id", nullable = false)
+    private Long agentId;
+
+    @Column(name = "suggested_fee", nullable = false, precision = 10, scale = 2)
+    private BigDecimal suggestedFee;
+
+    @Column(name = "status", nullable = false)
+    private DispatchProposalStatus status;
 
     @Column(name = "proposed_at", nullable = false)
     private Instant proposedAt;
 
+    @Column(name = "expires_at", nullable = false)
+    private Instant expiresAt;
+
+    @Column(name = "responded_at")
+    private Instant respondedAt;
+
     @Builder
     public DispatchProposalEntity(
-            Long dispatchRequestId,
-            Instant proposedAt) {
-        this.dispatchRequestId = dispatchRequestId;
+        Long dispatchId,
+        Long agentId,
+        BigDecimal suggestedFee,
+        DispatchProposalStatus status,
+        Instant proposedAt,
+        Instant expiresAt,
+        Instant respondedAt) {
+        this.dispatchId = dispatchId;
+        this.agentId = agentId;
+        this.suggestedFee = suggestedFee;
+        this.status = status;
         this.proposedAt = proposedAt;
+        this.expiresAt = expiresAt;
+        this.respondedAt = respondedAt;
     }
 }

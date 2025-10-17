@@ -1,7 +1,7 @@
 package vroong.laas.dispatch.core.domain.dispatch;
 
-public enum AgentProposalStatus {
-    PENDING,
+public enum DispatchProposalStatus {
+    PROPOSED,
     ACCEPTED,
     REJECTED,
     TIMEOUT,
